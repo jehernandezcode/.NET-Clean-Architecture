@@ -30,7 +30,7 @@ namespace Infraestructure.Persistence.Configuration
             builder.Property(c => c.PhoneNumber).HasConversion(
                 PhoneNumber => PhoneNumber.Value,
                 value => PhoneNumber.Create(value)!
-                ).HasMaxLength(9);
+                ).HasMaxLength(15);
 
             builder.OwnsOne(c => c.Address, addressBuilder =>
             {
