@@ -18,6 +18,7 @@ namespace Web.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCustomerCommand command)
         {
+
             var createCustomerResult = await _mediator.Send(command);
             return createCustomerResult.Match(
                 customer => Ok(),

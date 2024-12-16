@@ -34,6 +34,7 @@ namespace Application.Customers.Create
                     return Error.Validation("Customer.Address", "Address is not valid");
                 }
 
+
                 var customer = new Customer(
                     new CustomerId(Guid.NewGuid()),
                     command.Name,
@@ -50,7 +51,12 @@ namespace Application.Customers.Create
             }
             catch (Exception ex)
             {
-                return Error.Failure("CreateCustomer.failure", ex.Message );
+                if(ex.GetType().FullName == "Microsoft.EntityFrameworkCore.DbUpdateException")
+                {
+                    return Error.Failure("CreateCustomer.failure", ex?.InnerException?.Message
+                                     );
+                }
+                return Error.Failure("CreateCustomer.failure",ex.Message );
             }
         }
     }
