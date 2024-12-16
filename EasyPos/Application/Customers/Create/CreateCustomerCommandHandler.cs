@@ -22,8 +22,6 @@ namespace Application.Customers.Create
 
         public async Task<ErrorOr<Unit>> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
         {
-            try
-            {
                 if (PhoneNumber.Create(command.PhoneNumber) is not PhoneNumber phoneNumber)
                 {
                     return Error.Validation("Customer.PhoneNumber", "Phone number is not valid format");
@@ -49,15 +47,5 @@ namespace Application.Customers.Create
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
                 return Unit.Value;
             }
-            catch (Exception ex)
-            {
-                if(ex.GetType().FullName == "Microsoft.EntityFrameworkCore.DbUpdateException")
-                {
-                    return Error.Failure("CreateCustomer.failure", ex?.InnerException?.Message
-                                     );
-                }
-                return Error.Failure("CreateCustomer.failure",ex.Message );
-            }
         }
     }
-}

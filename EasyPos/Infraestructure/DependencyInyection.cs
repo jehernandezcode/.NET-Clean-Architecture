@@ -1,6 +1,5 @@
 ﻿
 
-using System.Runtime.CompilerServices;
 using Application.Data;
 using Domain.Customers;
 using Domain.Primitives;
