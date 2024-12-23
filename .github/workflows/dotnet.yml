@@ -68,7 +68,7 @@ jobs:
           dotnet tool install --global dotnet-sonarscanner
           export PATH="$PATH:/home/runner/.dotnet/tools"
           dotnet sonarscanner begin \
-            /k:"jhonnhernandezcode" \
+            /k:"jehernandezcode_.NET-Clean-Architecture" \
             /o:"jhonnhernandezcode" \
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.coverage.opencover.reportPaths=coverage.opencover.xml
