@@ -70,7 +70,7 @@ jobs:
           dotnet sonarscanner begin \
             /k:"jehernandezcode_.NET-Clean-Architecture" \
             /o:"jhonnhernandezcode" \
-            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.coverage.opencover.reportPaths=coverage.opencover.xml
-          dotnet build
-          dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          dotnet build --configuration Release
+          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
