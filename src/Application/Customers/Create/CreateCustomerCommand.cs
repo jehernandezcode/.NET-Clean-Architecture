@@ -15,5 +15,5 @@ public record CreateCustomerCommand(
     string City,
     string State,
     string ZipCode
-) : IRequest<ErrorOr<Unit>>;
+) : IRequest<ErrorOr<Guid>>;
 

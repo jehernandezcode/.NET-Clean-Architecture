@@ -5,10 +5,11 @@ using Domain.Primitives;
 using Domain.ValueObjects;
 using ErrorOr;
 using MediatR;
+using Domain.DomainErrors;
 
 namespace Application.Customers.Create
 {
-    internal sealed class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, ErrorOr<Unit>>
+    public sealed class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, ErrorOr<Guid>>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -20,17 +21,18 @@ namespace Application.Customers.Create
         }
 
 
-        public async Task<ErrorOr<Unit>> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Guid>> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
         {
+
                 if (PhoneNumber.Create(command.PhoneNumber) is not PhoneNumber phoneNumber)
                 {
-                    return Error.Validation("Customer.PhoneNumber", "Phone number is not valid format");
+                return CustomErrors.Customer.PhoneNumberWithBabFormat;
                 }
 
                 if (Address.Create(command.Country, command.Line1, command.Line2, command.City, command.State, command.ZipCode) is not Address address)
                 {
-                    return Error.Validation("Customer.Address", "Address is not valid");
-                }
+                    return CustomErrors.Customer.AddressWithFormatInvalid;
+            }
 
 
                 var customer = new Customer(
@@ -45,7 +47,7 @@ namespace Application.Customers.Create
 
                 _customerRepository.Add(customer);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
-                return Unit.Value;
+                return customer.Id.Value;
             }
         }
     }
