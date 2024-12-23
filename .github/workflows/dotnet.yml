@@ -69,7 +69,7 @@ jobs:
           export PATH="$PATH:/home/runner/.dotnet/tools"
           dotnet sonarscanner begin \
             /k:"jhonnhernandezcode" \
-            /o:"JhonnHernandezCode" \
+            /o:"jhonnhernandezcode" \
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.coverage.opencover.reportPaths=coverage.opencover.xml
           dotnet build
