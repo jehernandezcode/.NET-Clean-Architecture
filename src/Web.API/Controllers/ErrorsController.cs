@@ -9,7 +9,7 @@ namespace Web.API.Controllers
         [Route("/error")]
         public IActionResult Error()
         {
-            _ = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
+            Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
             return Problem();
         }
     }
