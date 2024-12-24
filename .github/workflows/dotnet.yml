@@ -73,8 +73,8 @@ jobs:
           dotnet sonarscanner begin \
             /k:"jehernandezcode_.NET-Clean-Architecture" \
             /o:"jhonnhernandezcode" \
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
-            /d:sonar.projectBaseDir="src"
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+            /d:sonar.projectBaseDir=src
           dotnet build --no-incremental
           dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
