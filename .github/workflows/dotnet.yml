@@ -75,7 +75,7 @@ jobs:
             /o:"jhonnhernandezcode" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.coverage.exclusions=**/Migrations/**,**/bin/**,**/obj/**,**/Program.cs \
-            /d:sonar.exclusions=**/bin/**,**/obj/**,**/*.generated.cs \
+            /d:sonar.exclusions=**/bin/**,**/obj/**,**/*.generated.cs,**/Migrations/** \
             /d:sonar.test.exclusions=**/tests/helpers/** \
             /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml \
             /d:sonar.cpd.exclusions="**/Migrations/**,**/Generated/**"
