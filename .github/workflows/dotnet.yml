@@ -45,7 +45,16 @@ jobs:
         run: dotnet restore
 
       - name: Run tests
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test --collect:"XPlat Code Coverage"
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Generate OpenCover Report
+        run: |
+          reportgenerator "-reports:${{ github.workspace }}/TestResults/*/coverage.cobertura.xml" "-targetdir:${{ github.workspace }}/coverage-report" -reporttypes:OpenCover
+
+        
 
   sonarcloud:
     name: SonarCloud Analysis
@@ -71,6 +80,6 @@ jobs:
             /k:"jehernandezcode_.NET-Clean-Architecture" \
             /o:"jhonnhernandezcode" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
-            /d:sonar.coverage.opencover.reportPaths=coverage.opencover.xml
+            /d:sonar.coverage.opencover.reportPaths=${{ github.workspace }}/coverage-report/opencover.xml
           dotnet build --configuration Release
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
