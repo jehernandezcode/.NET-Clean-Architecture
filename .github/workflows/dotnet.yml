@@ -47,15 +47,6 @@ jobs:
       - name: Run tests
         run: dotnet test --collect:"XPlat Code Coverage"
 
-      - name: Install dotnet coverage
-        run: dotnet tool install --global dotnet-coverage
-    
-      - name: Find Coverage File
-        id: coverage-file
-        run: |
-         FILE_PATH=$(find ${{ github.workspace }}/test/UnitTests/Application.Customers.UnitTests/TestResults -type f -name 'coverage.cobertura.xml' | grep -E '.*/[a-f0-9\-]+/coverage\.cobertura\.xml$')
-         echo "FILE_PATH=$FILE_PATH" >> $GITHUB_ENV
-
   sonarcloud:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
@@ -69,6 +60,9 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
+
+      - name: Install dotnet coverage
+        run: dotnet tool install --global dotnet-coverage
 
       - name: Run SonarCloud Scan
         env:
