@@ -1,3 +1,4 @@
+
 # .NET-Clean-Architecture + DDD
 
 Este es un proyecto en .net Core 8 en la creacion de customers, adoptando clean arquitecture + cqrs (MediaTR) + SqlServer + unit test. Ademas se agregan elementos de CI/CD como pipelines con github actions y analisis estatico del codigo.
@@ -13,7 +14,7 @@ Este es un proyecto en .net Core 8 en la creacion de customers, adoptando clean 
 
 ## Variables de entorno
 
-Para ejecutar este proyecto, deber· agregar las siguientes variables de entorno a su archivo appsettings.Development
+Para ejecutar este proyecto, deber√° agregar las siguientes variables de entorno a su archivo appsettings.Development
 
 ```bash
 "ConnectionStrings": {
@@ -43,3 +44,6 @@ Puede usar dotnet build y dotnet run correspondientemente o abrir la solucion co
 
 ## Github Actions y SonarQube
 Este proyecto tiene definidos jobs para verificar build, test y parametros de SonarQube(cobertura, duplicacion, codesmells), ademas de la definicion de exepciones para el analisis estatico.
+## Authors
+
+- [@jehernandezcode](https://github.com/jehernandezcode)
