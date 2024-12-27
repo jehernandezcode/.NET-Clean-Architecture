@@ -1,7 +1,5 @@
 ﻿
-using System.Net;
-using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
+using Web.API.Common.Errors;
 
 namespace Web.API.Middlewares
 {
@@ -23,19 +21,15 @@ namespace Web.API.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                var dataError = ErrorDetails.list["InternalError"];
+                context.Response.StatusCode = (int)dataError.StatusCode;
 
-                ProblemDetails problem = new()
-                {
-                    Status = (int)HttpStatusCode.InternalServerError,
-                    Type = "Server Error",
-                    Title = "Server Error",
-                    Detail = "An Internal error"
-                };
+                var errorResponse = new ErrorResponseHttpBuilder(dataError.StatusCode)
+                    .WithTitle(dataError.Title)
+                    .WithType(dataError.Type)
+                    .WithDetail(dataError.Detail);
 
-                string json = JsonSerializer.Serialize(problem);
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(json);
+                await errorResponse.WriteAsync(context);
             }
         }
     }

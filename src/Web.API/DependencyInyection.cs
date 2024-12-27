@@ -1,4 +1,5 @@
 ﻿
+using Web.API.Common.Swagger;
 using Web.API.Middlewares;
 
 namespace Web.API
@@ -9,7 +10,11 @@ namespace Web.API
         {
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.OperationFilter<GlobalHeaderDocumentFilter>();
+            });
+            services.AddTransient<HeaderValidationMiddleware>();
             services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
             return services;
