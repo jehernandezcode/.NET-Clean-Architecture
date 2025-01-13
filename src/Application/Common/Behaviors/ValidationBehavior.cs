@@ -1,7 +1,6 @@
 ﻿
 using ErrorOr;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 
 namespace Application.Common.Behaviors

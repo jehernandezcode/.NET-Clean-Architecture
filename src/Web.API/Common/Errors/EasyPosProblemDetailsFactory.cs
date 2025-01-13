@@ -7,7 +7,7 @@ using Web.API.Common.Http;
 
 namespace Web.API.Common.Errors
 {
-    public class EasyPosProblemDetailsFactory : ProblemDetailsFactory
+    public class EasyPosProblemDetailsFactory : ProblemDetailsFactory, IProblemDetails
     {
         private readonly ApiBehaviorOptions _options;
 
@@ -71,7 +71,7 @@ namespace Web.API.Common.Errors
             }
             var traceId = Activity.Current?.Id ?? httpContext.TraceIdentifier;
 
-            if(traceId != null)
+            if (traceId != null)
             {
                 problemDetails.Extensions["traceId"] = traceId;
             }

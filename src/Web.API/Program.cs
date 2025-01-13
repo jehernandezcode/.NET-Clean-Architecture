@@ -32,4 +32,6 @@ app.UseAuthorization();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
+app.UseMiddleware<HeaderValidationMiddleware>();
+
 app.Run();
