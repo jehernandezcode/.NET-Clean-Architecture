@@ -2,14 +2,15 @@
 {
         public static class HeaderValidationRules
         {
-            public static readonly Dictionary<string, Func<string, bool>> RequiredHeaders = new()
+            public static readonly IReadOnlyDictionary<string, Func<string, bool>> RequiredHeaders = new Dictionary<string, Func<string, bool>>
         {
             { "traceid", IsValidTraceId },
-            { "Application", IsValidApplicationHeader }
+            { "application", IsValidApplicationHeader }
         };
 
             private static bool IsValidTraceId(string traceId)
             {
+            Console.WriteLine(traceId);
                 return Guid.TryParse(traceId, out _);
             }
 

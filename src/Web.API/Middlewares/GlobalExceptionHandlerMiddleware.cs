@@ -1,4 +1,5 @@
 ﻿
+using System.Net;
 using Web.API.Common.Errors;
 
 namespace Web.API.Middlewares
@@ -6,10 +7,12 @@ namespace Web.API.Middlewares
     public class GlobalExceptionHandlerMiddleware : IMiddleware
     {
         private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
+        private readonly IProblemDetails _problemDetails;
 
-        public GlobalExceptionHandlerMiddleware(ILogger<GlobalExceptionHandlerMiddleware> logger)
+        public GlobalExceptionHandlerMiddleware(ILogger<GlobalExceptionHandlerMiddleware> logger, IProblemDetails problemDetails)
         {
             _logger = logger;
+            _problemDetails = problemDetails;
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -21,15 +24,19 @@ namespace Web.API.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                var dataError = ErrorDetails.list["InternalError"];
-                context.Response.StatusCode = (int)dataError.StatusCode;
+                var statusCode = (int)HttpStatusCode.InternalServerError;
+                var problemDetails = _problemDetails.CreateProblemDetails(
+                context, 
+                statusCode,
+                title: "An error occurred",
+                type: "server error",
+                detail: "server error"
+                 );
 
-                var errorResponse = new ErrorResponseHttpBuilder(dataError.StatusCode)
-                    .WithTitle(dataError.Title)
-                    .WithType(dataError.Type)
-                    .WithDetail(dataError.Detail);
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = statusCode;
 
-                await errorResponse.WriteAsync(context);
+                await context.Response.WriteAsJsonAsync(problemDetails);
             }
         }
     }
