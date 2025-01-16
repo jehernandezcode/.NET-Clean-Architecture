@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  webapi:
+    build:
+      context: .
+      dockerfile: src/Web.API/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Database=Server=mssql;Database=easypos;User Id=sa;Password=Contrasena12345678;Encrypt=false
+    depends_on:
+      - mssql
+
+  mssql:
+    container_name: sql-server
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Contrasena12345678"
+    ports:
+      - 1433:1433
+    volumes:
+      - my-volume:/var/opt/mssql
+      
+volumes:
+  my-volume:
