@@ -8,13 +8,7 @@ COPY ["src/Application/Application.csproj", "Application/"]
 COPY ["src/Domain/Domain.csproj", "Domain/"]
 COPY ["src/Infraestructure/Infraestructure.csproj", "Infraestructure/"]
 
-# Crear un usuario no privilegiado
-RUN useradd -m appuser
-
-# Cambiar al usuario no privilegiado
-USER appuser
-
-# restauara las dependendencias del proyecto raiz
+# Restaurar dependencias como usuario root
 RUN dotnet restore "Web.API/Web.API.csproj"
 
 # Copiar el resto del código y compilar la aplicación
@@ -28,6 +22,17 @@ RUN dotnet publish -c Release -o /app
 
 # Etapa 2: Imagen de runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
+
+# Crear un usuario no privilegiado
+RUN useradd -m appuser
+
 WORKDIR /app
+
+# Copiar los archivos publicados desde la etapa de construcción
 COPY --from=build /app .
+
+# Cambiar al usuario no privilegiado
+USER appuser
+
+# Ejecutar la aplicación como usuario no privilegiado
 ENTRYPOINT ["dotnet", "Web.API.dll"]
