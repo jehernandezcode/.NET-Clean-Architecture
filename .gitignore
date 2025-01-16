@@ -272,3 +272,29 @@ __pycache__/
 # tools/
 
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore
+
+# SonarQube
+.sonarqube/
+
+# Coverage Reports
+coverage/
+*.coverage
+*.coveragexml
+*.cov
+
+# App settings
+appsettings.Development.json
+appsettings.*.json
+
+# Test Results
+TestResults/
+*.trx
+
+# Dependencies
+project.lock.json
+global.json
+
+# Secrets
+.env
+.env.*
+secrets.json
