@@ -20,6 +20,12 @@ RUN dotnet publish -c Release -o /app
 EXPOSE 8080
 EXPOSE 80
 
+# Crear un usuario no privilegiado
+RUN useradd -m appuser
+
+# Cambiar al usuario no privilegiado
+USER appuser
+
 # Etapa 2: Imagen de runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app

@@ -8,9 +8,9 @@ services:
       - "5000:5000"
       - "5001:5001"
     environment:
-      - ASPNETCORE_URLS=http://+:5000
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__Database=Server=mssql;Database=easypos;User Id=sa;Password=Contrasena12345678;Encrypt=false
+      ASPNETCORE_URLS : ${ASPNETCORE_URLS}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__Database: ${CONNECTION_STRING_DB}
     depends_on:
       - mssql
 
@@ -19,8 +19,8 @@ services:
     image: mcr.microsoft.com/mssql/server:2017-latest
     restart: always
     environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "Contrasena12345678"
+      ACCEPT_EULA: ${ACCEPT_EULA_DB}
+      SA_PASSWORD: ${SA_PASSWORD_DB}
     ports:
       - 1433:1433
     volumes:
